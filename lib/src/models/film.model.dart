@@ -57,9 +57,9 @@ class Pelicula {
     voteCount        = json['vote_count'];
     id               = json['id'];
     video            = json['video'];
-    voteAverage      = json['vote_average'] / 1;
+    voteAverage      = json['vote_average'] / 1.0;
     title            = json['title'];
-    popularity       = json['popularity'] / 1;
+    popularity       = json['popularity'] / 1.0;
     posterPath       = json['poster_path'];
     originalLanguage = json['original_language'];
     originalTitle    = json['original_title'];
