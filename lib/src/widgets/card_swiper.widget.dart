@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
 class CardSwiper extends StatelessWidget {
-  final List<dynamic> peliculas;
+  final List<dynamic> films;
 
-  CardSwiper({@required this.peliculas});
+  CardSwiper({@required this.films});
 
   @override
   Widget build(BuildContext context) {
