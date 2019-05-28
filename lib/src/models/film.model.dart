@@ -1,15 +1,15 @@
-class Peliculas {
+class Films {
 
-  List<Pelicula> items = new List();
+  List<Film> items = new List();
 
-  Peliculas();
+  Films();
 
-  Peliculas.fromJsonList( List<dynamic> jsonList  ) {
+  Films.fromJsonList( List<dynamic> jsonList  ) {
 
     if ( jsonList == null ) return;
 
     for ( var item in jsonList  ) {
-      final pelicula = new Pelicula.fromJsonMap(item);
+      final pelicula = new Film.fromJsonMap(item);
       items.add( pelicula );
     }
 
@@ -19,7 +19,7 @@ class Peliculas {
 
 
 
-class Pelicula {
+class Film {
   int voteCount;
   int id;
   bool video;
@@ -35,7 +35,7 @@ class Pelicula {
   String overview;
   String releaseDate;
 
-  Pelicula({
+  Film({
     this.voteCount,
     this.id,
     this.video,
@@ -52,7 +52,7 @@ class Pelicula {
     this.releaseDate,
   });
 
-  Pelicula.fromJsonMap( Map<String, dynamic> json ) {
+  Film.fromJsonMap( Map<String, dynamic> json ) {
 
     voteCount        = json['vote_count'];
     id               = json['id'];
