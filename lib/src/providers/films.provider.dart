@@ -1,10 +1,11 @@
 import 'dart:convert';
 
+import 'package:flutter_films/secret/secretdata.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_films/src/models/film.model.dart';
 
 class FilmsProvider {
-  String _apiKey = '';
+  String _apiKey = SecretData.apiKey;
   String _url = 'api.themoviedb.org';
   String _path = '/3/movie/now_playing';
   String _language = 'en-US';

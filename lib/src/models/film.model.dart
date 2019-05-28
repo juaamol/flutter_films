@@ -72,7 +72,7 @@ class Film {
 
   }
 
-  GetPosterImg() {
+  String getPosterImg() {
     if (posterPath == null) {
       return 'https://sainfoinc.com/wp-content/uploads/2018/02/image-not-available.jpg';
     }

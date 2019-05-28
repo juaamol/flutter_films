@@ -31,7 +31,7 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _cardSwiper() {
-    FutureBuilder(
+    return FutureBuilder(
       future: _films.getOnBillboard(),
       builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
 
