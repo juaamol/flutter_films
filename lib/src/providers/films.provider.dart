@@ -7,11 +7,12 @@ import 'package:flutter_films/src/models/film.model.dart';
 class FilmsProvider {
   String _apiKey = SecretData.apiKey;
   String _url = 'api.themoviedb.org';
-  String _path = '/3/movie/now_playing';
+  String _pathNowPlaying = '/3/movie/now_playing';
+  String _pathPopulares = '/3/movie/popular';
   String _language = 'en-US';
 
-  Future<List<Film>> getOnBillboard() async{
-    final url = Uri.https(_url, _path, {
+  Future<List<Film>> _getFilms(String path) async{
+    final url = Uri.https(_url, path, {
       'api_key': _apiKey,
       'language': _language,
     });
@@ -21,5 +22,13 @@ class FilmsProvider {
     final films = new Films.fromJsonList(decodedData['results']);
     
     return films.items;
+  }
+
+  Future<List<Film>> getOnBillboard() async{
+    return _getFilms(_pathNowPlaying);
+  }
+
+  Future<List<Film>> getPopular() async{
+    return _getFilms(_pathPopulares);
   }
 }
