@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_films/src/providers/films.provider.dart';
 import 'package:flutter_films/src/widgets/card_swiper.widget.dart';
+import 'package:flutter_films/src/widgets/film_horizontal.widget.dart';
 
 class HomePage extends StatelessWidget {
   final _films = FilmsProvider();
@@ -14,14 +15,13 @@ class HomePage extends StatelessWidget {
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.search),
-              onPressed: () {
-
-              },
+              onPressed: () {},
             )
-          ]
-          ),
-      body: SafeArea(child: Container(
+          ]),
+      body: SafeArea(
+          child: Container(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             _cardSwiper(),
             _footer(context),
@@ -35,15 +35,10 @@ class HomePage extends StatelessWidget {
     return FutureBuilder(
       future: _films.getOnBillboard(),
       builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
-
-        if(snapshot.hasData) {
-          return CardSwiper(
-          films: snapshot.data);
+        if (snapshot.hasData) {
+          return CardSwiper(films: snapshot.data);
         }
-          return Container(
-            height: 400.0,
-            child: CircularProgressIndicator(),
-          ); 
+        return CircularProgressIndicator();
       },
     );
   }
@@ -52,21 +47,26 @@ class HomePage extends StatelessWidget {
     return Container(
       width: double.infinity,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text('Popular', style: Theme.of(context).textTheme.subhead,),
+          Container(
+            padding: EdgeInsets.only(left: 20.0),
+            child: Text(
+              'Popular',
+              style: Theme.of(context).textTheme.subhead,
+            ),
+          ),
+          SizedBox(height: 5.0),
           FutureBuilder(
             future: _films.getPopular(),
-            builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
-
-              if(snapshot.hasData) {
-                return CardSwiper(
-                films: snapshot.data);
+            builder:
+                (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+              if (snapshot.hasData) {
+                return FilmHorizontal(films: snapshot.data);
               }
-              return Container(
-                height: 400.0,
-                child: CircularProgressIndicator(),
-              ); 
+              return Center(
+                  child: CircularProgressIndicator(),
+                );
             },
           )
         ],
