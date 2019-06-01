@@ -11,6 +11,7 @@ class FilmsProvider {
   String _url = 'api.themoviedb.org';
   String _pathNowPlaying = '/3/movie/now_playing';
   String _pathPopulares = '/3/movie/popular';
+  String _pathSearch = '/3/search/movie';
   String _language = 'en-US';
   int _popularPage = 0;
   bool _loading = false;
@@ -77,5 +78,15 @@ class FilmsProvider {
     final cast = new Cast.fromJsonList(decodedData['cast']);
 
     return cast.actors;
+  }
+
+  Future<List<Film>> searchFilm(String query) async {
+    final url = Uri.https(_url, _pathSearch, {
+      'api_key': _apiKey,
+      'language': _language,
+      'query': query,
+    });
+
+    return _getFilms(url);
   }
 }
