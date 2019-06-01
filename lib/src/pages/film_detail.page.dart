@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_films/src/models/film.model.dart';
+import 'package:flutter_films/src/providers/films.provider.dart';
+import 'package:flutter_films/src/widgets/actor_horizontal.widget.dart';
 
 class FilmDetail extends StatelessWidget {
   @override
@@ -18,6 +20,7 @@ class FilmDetail extends StatelessWidget {
               ),
               _posterTitle(context, film),
               _description(film),
+              _createCasting(film),
             ]),
           ),
         ],
@@ -95,5 +98,21 @@ class FilmDetail extends StatelessWidget {
     return Container(
         padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
         child: Text(film.overview, textAlign: TextAlign.justify));
+  }
+
+  Widget _createCasting(Film film) {
+    final _films = new FilmsProvider();
+
+    return FutureBuilder(
+        future: _films.getCast(film.id.toString()),
+        builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
+          if (snapshot.hasData) {
+            return ActorHorizontal(actors: snapshot.data);
+          }
+
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        });
   }
 }
