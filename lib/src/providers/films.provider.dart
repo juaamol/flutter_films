@@ -12,6 +12,7 @@ class FilmsProvider {
   String _pathPopulares = '/3/movie/popular';
   String _language = 'en-US';
   int _popularPage = 0;
+  bool _loading = false;
 
   List<Film> _popular = new List();
 
@@ -26,15 +27,7 @@ class FilmsProvider {
     _popularStreamController?.close();
   }
 
-  Future<List<Film>> _getFilms(String path) async {
-    _popularPage++;
-
-    final url = Uri.https(_url, path, {
-      'api_key': _apiKey,
-      'language': _language,
-      'page': _popularPage.toString()
-    });
-
+  Future<List<Film>> _getFilms(Uri url) async{
     final resp = await http.get(url);
     final decodedData = json.decode(resp.body);
     final films = new Films.fromJsonList(decodedData['results']);
@@ -43,15 +36,32 @@ class FilmsProvider {
   }
 
   Future<List<Film>> getPopular() async {
-    List<Film> popularFilms = await _getFilms(_pathPopulares);
+    if(_loading) return [];
+
+    _loading = true;
+    _popularPage++;
+
+    final url = Uri.https(_url, _pathPopulares, {
+      'api_key': _apiKey,
+      'language': _language,
+      'page': _popularPage.toString()
+    });
+
+    List<Film> popularFilms = await _getFilms(url);
 
     _popular.addAll(popularFilms);
     popularSink(_popular);
 
+    _loading = false;
     return popularFilms;
   }
 
   Future<List<Film>> getOnBillboard() async {
-    return _getFilms(_pathNowPlaying);
+    final url = Uri.https(_url, _pathNowPlaying, {
+      'api_key': _apiKey,
+      'language': _language
+    });
+
+    return _getFilms(url);
   }
 }
