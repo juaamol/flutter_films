@@ -18,15 +18,26 @@ class CardSwiper extends StatelessWidget {
         itemWidth: _screenSize.width * 0.5,
         itemHeight: _screenSize.height * 0.45,
         itemBuilder: (BuildContext context, int index) {
-          return ClipRRect(
-            child: FadeInImage(
-              image: NetworkImage(
-                films[index].getPosterImg(),
+          films[index].uniqueId = '${ films[index].id }-card';
+
+          return Hero(
+            tag: films[index].uniqueId,
+            child: ClipRRect(
+              child: GestureDetector(
+                child: FadeInImage(
+                  image: NetworkImage(
+                    films[index].getPosterImg(),
+                  ),
+                  placeholder: AssetImage('assets/img/no-image.jpg'),
+                  fit: BoxFit.cover,
+                ),
+                onTap: () {
+                  Navigator.pushNamed(context, 'detail',
+                      arguments: films[index]);
+                },
               ),
-              placeholder: AssetImage('assets/img/no-image.jpg'),
-              fit: BoxFit.cover,
+              borderRadius: BorderRadius.circular(20.0),
             ),
-            borderRadius: BorderRadius.circular(20.0),
           );
         },
         itemCount: films.length,
