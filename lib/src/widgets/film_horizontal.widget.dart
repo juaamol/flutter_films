@@ -60,7 +60,6 @@ class FilmHorizontal extends StatelessWidget {
         child: card,
         onTap: () {
           Navigator.pushNamed(context, 'detail', arguments: film);
-          print('Tap:' + film.title);
         },
       );
   }

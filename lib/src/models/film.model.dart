@@ -79,6 +79,12 @@ class Film {
     return 'https://image.tmdb.org/t/p/w500/$posterPath';
   }
 
+  String getBackgroundImg() {
+    if (posterPath == null) {
+      return 'https://sainfoinc.com/wp-content/uploads/2018/02/image-not-available.jpg';
+    }
+    return 'https://image.tmdb.org/t/p/w500/$backdropPath';
+  }
 }
 
 
