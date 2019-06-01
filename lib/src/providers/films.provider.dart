@@ -13,19 +13,20 @@ class FilmsProvider {
   String _language = 'en-US';
   int _popularPage = 0;
 
-  List<Film> _popular = new List(); 
+  List<Film> _popular = new List();
 
-  final StreamController<List<Film>> _popularStreamController = StreamController<List<Film>>.broadcast();
+  final StreamController<List<Film>> _popularStreamController =
+      StreamController<List<Film>>.broadcast();
 
   Function(List<Film>) get popularSink => _popularStreamController.sink.add;
 
   Stream<List<Film>> get popularStream => _popularStreamController.stream;
 
-  void disposeStreams(){
+  void disposeStreams() {
     _popularStreamController?.close();
   }
 
-  Future<List<Film>> _getFilms(String path) async{
+  Future<List<Film>> _getFilms(String path) async {
     _popularPage++;
 
     final url = Uri.https(_url, path, {
@@ -37,18 +38,20 @@ class FilmsProvider {
     final resp = await http.get(url);
     final decodedData = json.decode(resp.body);
     final films = new Films.fromJsonList(decodedData['results']);
-    
-    _popular.addAll(films.items);
-    popularSink(_popular);
 
     return films.items;
   }
 
-  Future<List<Film>> getOnBillboard() async{
-    return _getFilms(_pathNowPlaying);
+  Future<List<Film>> getPopular() async {
+    List<Film> popularFilms = await _getFilms(_pathPopulares);
+
+    _popular.addAll(popularFilms);
+    popularSink(_popular);
+
+    return popularFilms;
   }
 
-  Future<List<Film>> getPopular() async{
-    return _getFilms(_pathPopulares);
+  Future<List<Film>> getOnBillboard() async {
+    return _getFilms(_pathNowPlaying);
   }
 }
