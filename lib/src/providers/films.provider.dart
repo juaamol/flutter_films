@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter_films/secretdata/secretdata.dart';
+import 'package:flutter_films/src/models/actor.model.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_films/src/models/film.model.dart';
 
@@ -63,5 +64,18 @@ class FilmsProvider {
     });
 
     return _getFilms(url);
+  }
+
+  Future<List<Actor>> getCast(String filmId) async {
+    final url = Uri.https(_url, '/3/$filmId/credits', {
+      'api_key': _apiKey,
+      'language': _language,
+    });
+
+    final resp = await http.get(url);
+    final decodedData = json.decode(resp.body);
+    final cast = new Cast.fromJsonList(decodedData['cast']);
+
+    return cast.actors;
   }
 }

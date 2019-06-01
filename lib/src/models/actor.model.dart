@@ -1,6 +1,6 @@
 class Cast {
 
-  List<Actor> actores = new List();
+  List<Actor> actors = new List();
 
 
   Cast.fromJsonList( List<dynamic> jsonList  ){
@@ -9,7 +9,7 @@ class Cast {
 
     jsonList.forEach( (item) {
       final actor = Actor.fromJsonMap(item);
-      actores.add(actor);
+      actors.add(actor);
     });
   }
 
