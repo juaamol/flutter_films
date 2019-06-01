@@ -3,7 +3,8 @@ import 'package:flutter_films/src/models/film.model.dart';
 
 class FilmHorizontal extends StatelessWidget {
   final List<Film> films;
-  final _pageController = new PageController(initialPage: 1, viewportFraction: 0.3);
+  final _pageController =
+      new PageController(initialPage: 1, viewportFraction: 0.3);
   final Function nextPage;
 
   FilmHorizontal({@required this.films, @required this.nextPage});
@@ -13,7 +14,8 @@ class FilmHorizontal extends StatelessWidget {
     final _screenSize = MediaQuery.of(context).size;
 
     _pageController.addListener(() {
-      if(_pageController.position.pixels >= _pageController.position.maxScrollExtent - 200) {
+      if (_pageController.position.pixels >=
+          _pageController.position.maxScrollExtent - 200) {
         nextPage();
       }
     });
@@ -34,10 +36,12 @@ class FilmHorizontal extends StatelessWidget {
 
   Widget _card(BuildContext context, Film film) {
     final card = Container(
-        margin: EdgeInsets.only(right: 15.0),
-        child: Column(
-          children: <Widget>[
-            ClipRRect(
+      margin: EdgeInsets.only(right: 15.0),
+      child: Column(
+        children: <Widget>[
+          Hero(
+            tag: film.id,
+            child: ClipRRect(
               borderRadius: BorderRadius.circular(20.0),
               child: FadeInImage(
                 image: NetworkImage(film.getPosterImg()),
@@ -46,21 +50,22 @@ class FilmHorizontal extends StatelessWidget {
                 height: 160.0,
               ),
             ),
-            SizedBox(height: 5.0),
-            Text(
-              film.title,
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.caption,
-            )
-          ],
-        ),
-      );
+          ),
+          SizedBox(height: 5.0),
+          Text(
+            film.title,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.caption,
+          )
+        ],
+      ),
+    );
 
-      return GestureDetector(
-        child: card,
-        onTap: () {
-          Navigator.pushNamed(context, 'detail', arguments: film);
-        },
-      );
+    return GestureDetector(
+      child: card,
+      onTap: () {
+        Navigator.pushNamed(context, 'detail', arguments: film);
+      },
+    );
   }
 }
